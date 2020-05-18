@@ -41,9 +41,9 @@
 				<div class="total_area">
 					<ul>
 						<li>Cart Sub Total <span id="total">₹ Total price</span></li>
-						<li>Eco Tax <span>9 %</span></li>
-						<li>Shipping Cost <span>Free</span></li>
-						<li>Total <span>₹ text</span></li>
+						<li>Eco Tax <span id="tax">9 % </span> <b> 9 %</b> </li>
+						<li>Shipping Cost <span id="shippingCharge">Free</span></li>
+						<li>Total <span id="totaltax">₹ text</span></li>
 					</ul>
 					<a class="btn btn-default update" href="">Update</a>
 					<a class="btn btn-default check_out" href="">Check Out</a>
@@ -66,8 +66,11 @@ function cartData()
 			{
 			var trHTML="";
 			var total=0;
+			var tex=0;
 			for(i=0; $=i<data.result.carts.length; i++)
-				{
+				{					
+					total = total + parseFloat(data.result.carts[i].cart_quantity*data.result.carts[i].price);
+
 					trHTML+='<tr id="cartRow'+data.result.carts[i].cart_id+'" class="cartDataClass">'
 					+'<td class="cart_product">'
 					+'<a href=""><img src="<?= base_url("assets/images/upload/product/")?>'+data.result.carts[i].image+'" alt="" style="height:15vh;"></a>'
@@ -93,10 +96,24 @@ function cartData()
 					+'</td>'
 					+'</tr>';
 				}
-
+				if(total < 5999)
+				{
+					jQuery("#shippingCharge").html("₹ "+ 99);
+					totaltax=(total+total*9/100);
+					totaltax+=99;
+				}
+				else{
+					jQuery("#shippingCharge").html("FREE");
+					totaltax=total+total*9/100;
+				}
+				// totaltax=total+total*9/100;
+				tax=total*9/100;
 			jQuery(".cartDataClass").remove();
 			jQuery("#tBody").append(trHTML);
-			jQuery("#total").append(total);
+			jQuery("#total").html("₹ "+total);
+			jQuery("#tax").html("₹ "+tax);
+			jQuery("#totaltax").html("₹ "+totaltax);
+
 
 			}
 	});
@@ -158,7 +175,7 @@ function cartDelete(id)
 		type:'POST',
 		success:function(data)
 		{
-			jQuery("#cartRow"+id).hide(2000)
+			jQuery("#cartRow"+id).hide(2000,cartData())
 			jQuery("#cartRow"+id).css("background","#e27676");
 			alertify.error("<h3>Delete Succesfully</h3>");
 		}
