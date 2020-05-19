@@ -13,21 +13,6 @@ class Home extends MY_Controller {
 		$this->render('frontend/index',$result=null);
 	}
 
-	public function products()
-	{
-		$this->validUser();
-		$result["brands"]=$this->HomeModel->brand();
-		$result["categorys"]=$this->HomeModel->category();	
-		$result["products"]=$this->HomeModel->product();			
-		$this->render('frontend/products',$result);
-		
-	}
-
-	public function register()
-	{
-		$this->render('frontend/register',$result=Null);
-	}
-
 	//rework frolder in vew 
 	// public function product()
 	// {
@@ -77,35 +62,5 @@ class Home extends MY_Controller {
 		$result["carts"]=$this->HomeModel->cartOpen($id);
 		$this->sendData(200,$result);
 	}
-
-
-	public function login()
-	{
-		$email=$this->input->post("email");
-		$password=$this->input->post("password");
-		$result=$this->HomeModel->login($email,$password);
-		if($result)
-		{
-			print_r($result[0]->id);
-			$this->session->set_userdata("UID",$result[0]->id);
-
-		}else{
-			$this->sendData("201","Plese Enter a vlaid email id and pasowrd");
-		}
-	}
-
-	public function signUp()
-	{
-		$data["name"]=$this->input->post("name");
-		$data["email"]=$this->input->post("email");
-		$data["password"]=$this->input->post("password");
-		$this->HomeModel->signUp($data);
-		echo "Dtat inserts";
-		redirect("home/register");
-	}
-
-	public function sendData($status,$result)
-	{
-		echo json_encode(["status"=>$status,"result"=>$result]);
-	}
+	
 }

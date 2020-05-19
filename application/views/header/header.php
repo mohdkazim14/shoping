@@ -67,9 +67,9 @@
 								<li><a href="<?= base_url("home/index")?>"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="<?= base_url("home/cartOpen")?>"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								<?php if(($this->session->userdata("UID")=='')) { ?>
-									<li><a href="<?= base_url("home/register")?>"><i class="fa fa-lock"></i> Login</a></li>
+									<li><a href="<?= base_url("auth/register")?>"><i class="fa fa-lock"></i> Login</a></li>
 								<?php }else{ ?>
-										<li><a href="<?= base_url("home/logout")?>"><i class="fa fa-sign-out" aria-hidden="true"></i> LOGOUT</a></li>
+										<li><a href="<?= base_url("auth/logout")?>"><i class="fa fa-sign-out" aria-hidden="true"></i> LOGOUT</a></li>
 										<li><img src="<?= base_url("assets/images/home/sale.png")?>" style="width:50px; border-radius: 50%; border:2px solid red;"></li>
 								<?php } ?>
 
@@ -83,7 +83,7 @@
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 								<span class="sr-only">Toggle navigation</span>
@@ -97,7 +97,7 @@
 								<li><a href="<?= base_url("home/index")?>" class="active">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="<?= base_url("home/products")?>">Products</a></li>
+                                        <li><a href="<?= base_url("product/products")?>">Products</a></li>
 										<li><a href="<?= base_url("home/index")?>">Product Details</a></li> 
 										<li><a href="<?= base_url("home/index")?>">Checkout</a></li> 
 										<li><a href="<?= base_url("home/cartOpen")?>">Cart</a></li> 
@@ -115,12 +115,64 @@
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<input type="text" placeholder="Search" id="searchs" />
 						</div>
 					</div>
 				</div>
 			</div>
 		</div><!--/header-bottom-->
 	</header><!--/header-->
+
+	<!-- search box -->
+	<div class="searchBox">
+		<table class="table">
+			<tbody id="searchData"></tbody>
+			
+		</table>
+		
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function()
+		{
+			jQuery(".searchBox").hide();
+			jQuery("#searchs").keyup(function()
+			{
+				var search =jQuery("#searchs").val();
+				if(search=='')
+				{
+					jQuery(".searchBox").hide();
+				}else{
+				//console.log(search);
+				jQuery.ajax({
+					url:'<?= base_url("product/search")?>',
+					type:'POST',
+					data:'search='+search,
+					dataType: 'json',
+					success:function(data)
+					{
+						console.log(data.status);
+						if(data.status==200){
+						jQuery(".searchBox").show();
+						// jQuery("#searchData").remove();
+						var table="";
+						//console.log(data.result.length);
+						for(i = 0; i < data.result.length; i++)
+						{
+							console.log(data.result[i].price);
+							table += '<tr>'
+									+'<td><a href=""><img src="<?= base_url("assets/images/upload/product/")?>'+data.result[i].image+'" alt="" style="height:15vh;"> '+data.result[i].name+' '+data.result[i].price+'</a></td>'		
+									+'</tr>';
+						}
+					}else{
+						table += "Try Again";
+					}
+
+						jQuery("#searchData").html(table);
+					}
+				});
+				}
+			});
+		});
+	</script>

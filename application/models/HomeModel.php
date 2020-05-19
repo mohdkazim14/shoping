@@ -42,6 +42,12 @@ class HomeModel extends CI_Model {
 					->result();
 }
 
+
+public function search($search)
+{
+	return $this->db->select("*")->from("product")->like("name" ,$search, "both")->get()->result();
+}
+
 public function addtoCart($data)
 {
 	$this->db->insert("cart",$data);

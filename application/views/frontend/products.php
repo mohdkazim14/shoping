@@ -4,8 +4,7 @@
 				<div class="col-sm-3">
 					<div class="left-sidebar">
 						<h2>Category</h2>
-						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
-							
+						<div class="panel-group category-products" id="accordian"><!--category-productsr-->							
 							<?php foreach($categorys as $category) {?>
 							<div class="panel panel-default">
 								<div class="panel-heading">
@@ -26,8 +25,8 @@
 									
 								</ul>
 							</div>
-						</div><!--/brands_products-->
-						
+						</div>
+						<!--/brands_products-->						
 						<div class="price-range"><!--price-range-->
 							<h2>Price Range</h2>
 							<div class="well">
@@ -89,6 +88,12 @@
 		</div>
 	</section>
 		<script type="text/javascript">
+
+			$(document).ready(function(){
+			});
+
+
+			// add to cart 
 			function addtoCart(id)
 			{
 				$.ajax({
@@ -105,14 +110,10 @@
 						}
 						else{
 							 alertify.warning("<h3>"+this.peson.result+"</h3>");
-
 						}
 					}
-
 				})
 			}
 
-			$(document).ready(function(){
-				
-			})
+			
 		</script>

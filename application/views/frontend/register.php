@@ -1,5 +1,5 @@
+<section id="form" style=" margin-top: 00px;"><!--form-->
 
-<section id="form"><!--form-->
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-4 col-sm-offset-1">
@@ -10,6 +10,7 @@
 						<p class="error" id="l_email_error"></p>
 						<input type="password" placeholder="Email Password" id="login_password"/>
 						<p class="error" id="L_password_error"></p>
+						<p id="callForgetModel">FORGET PASSWORD</p>
 						<span>
 							<input type="checkbox" class="checkbox"> 
 							Keep me signed in
@@ -24,7 +25,7 @@
 			<div class="col-sm-4">
 				<div class="signup-form"><!--sign up form-->
 					<h2>New User Signup!</h2>
-					<form action="#">
+					<form action="#" id="registerForm">
 						<input type="text" placeholder="Name" id="name"/>
 						<p class="error" id="name_error"></p>
 						<input type="email" placeholder="Email Address" id="email"/>
@@ -39,31 +40,93 @@
 	</div>
 </section><!--/form-->
 
+<div class="model" id="forgetModel">
+	<div class="model-header">
+		<a href="java:void(0)" id="cross">Close</a>
+	</div>
+	<div class="model-body">
+		<form class="form-group">
+			<div id="emailPart">
+				<h1 style="text-align:center;">FORGET PASSWORD</h1>
+				<input type="text" id="forgetEmail" class="form-control forget" placeholder="Enter Your email">
+				<input type="button" id="forgetButton" value="Submit" class="btn btn-succcess forget" style="width:100%; margin-top: 10px;">
+			</div>
+			<div id="otpPart">
+				<h1 style="text-align:center;">SUBMIT YOUR OTP</h1>
+				<input type="text" id="optEmail" class="form-control forget" placeholder="Enter Your email">
+				<input type="button" id="otpButton" value="Submit" class="btn btn-succcess forget" style="width:100%; margin-top: 10px;">
+			</div>
+		</form>
+	</div>
+	<div class="model-footer">		
+	</div>
+	<div class="insideModel">
+		
+	</div>
+</div>
+
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("#login").click(function(){
+		$("#forgetModel").hide();
+		$("#otpPart").hide();
+		$("#cross").click(function(){
+			$("#forgetModel").hide(1000);
+		});
 
+		$("#callForgetModel").click(function()
+		{
+			$("#forgetModel").show(2000);
+		});
+
+		// register And Login 
+
+		$("#login").click(function(){
 			var email=$("#login_email").val();
 			var password=$("#login_password").val();
 			$.ajax({
-				url:'<?= base_url("home/login")?>',
+				url:'<?= base_url("auth/login")?>',
 				type:'POST',
-				preson:'',
-				data:'email='+email+'&password='+password,
+				dataType:'JSON',
+				data:'&email='+email+'&password='+password,
 				success:function(data)
 				{
-					this.person=JSON.parse(data);
-					console.log(this.person.status);
-					if(this.person.status==201)
+					$("#l_email_error").html('');
+					$("#L_password_error").html('');
+					console.log(data.status);
+					if(data.status==201){
+						if(data.l_email_error !='')
 						{
-							$("#errorMsg").html("<div class='alert alert-danger'>"+this.person.result+"</div>");
-							// console.log(this.person.result);	
-						}else{	window.location.href="<?= base_url("home/index");?>"; }
-				}
-			})
+							$("#l_email_error").html(data.l_email_error);
+						}
+						else{
+							-$("#l_email_error").html('');
+						}
 
-		});
+						if(data.L_password_error !='')
+						{
+							$("#L_password_error").html(data.L_password_error);
+						}
+						else{
+							-$("#L_password_error").html('');
+						}						
+					}
+					if(data.status==203)
+					{
+						$("#errorMsg").html("<div class='alert alert-danger'>"+data.data+"</div>");					
+					}
+					else
+					{
+						$("#errorMsg").html('');
+						window.location.href="<?= base_url("home/index");?>"; 
+					}
+					if(data.status==200){
+							$("#registerForm")[0].reset(); 
+							$("#registerForm").html('<div class="alert alert-success">'+data.data+'</div> '); 
+						}
+				}
+			});
+		})
 
 		$("#register").click(function(){
 
@@ -72,18 +135,46 @@
 			var password=$("#password").val();
 
 			$.ajax({
-				url:'<?= base_url("home/signUp")?>',
+				url:'<?= base_url("auth/signUp")?>',
 				type:'POST',
+				dataType:'JSON',
 				data:'name='+name+'&email='+email+'&password='+password,
 				success:function(data)
 				{
-					alert(data);
+					$("#name_error").html('');
+					$("#email_error").html('');
+					$("#password_error").html('');
+					if(data.status==201){
+						if(data.name_error !='')
+						{
+							$("#name_error").html(data.name_error);
+						}
+						else{
+							-$("#name_error").html('');
+						}
+
+						if(data.email_error !='')
+						{
+							$("#email_error").html(data.email_error);
+						}
+						else{
+							-$("#email_error").html('');
+						}
+						if(data.password_error !='')
+						{
+							$("#password_error").html(data.password_error);
+						}
+						else{
+							-$("#password_error").html('');
+						}
+					}
+					if(data.status==200){
+							$("#registerForm")[0].reset(); 
+							$("#registerForm").html('<div class="alert alert-success">'+data.data+'</div> '); 
+						}
 				}
-			})
-
+			});
 		});
-
-
-	})
+	});
 </script>
 
