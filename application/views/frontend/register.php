@@ -68,7 +68,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("#forgetModel").hide();
+		// $("#forgetModel").hide();
 		$("#otpPart").hide();
 		$("#cross").click(function(){
 			$("#forgetModel").hide(1000);
@@ -77,6 +77,23 @@
 		$("#callForgetModel").click(function()
 		{
 			$("#forgetModel").show(2000);
+
+			// send email id for forget 			
+	});
+		
+		$("#forgetButton").click(function()
+			{
+				var email=$("#forgetEmail").val();
+				$.ajax({
+				url:'<?= base_url("auth/forgetPassword")?>',
+				type:'POST',
+				dataType:'JSON',
+				data:'email='+email,
+				success:function(data)
+				{
+					alert(data.status);
+				}
+			})
 		});
 
 		// register And Login 

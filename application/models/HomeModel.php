@@ -18,6 +18,15 @@ class HomeModel extends CI_Model {
 					->result();	
 	}
 
+	public function forgetPassword($email)
+	{
+		return $this->db->select("*")
+					->from("users")
+					->where("email",$email)
+					->get()
+					->result();	
+	}
+
 	public function brand()
 	{
 		return $this->db->select("*")
