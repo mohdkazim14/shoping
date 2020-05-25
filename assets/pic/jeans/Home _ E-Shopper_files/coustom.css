@@ -1,0 +1,50 @@
+* {
+	margin:00;
+	padding: 1px;
+}
+
+.error{
+	color:red;
+}
+
+.searchBox{
+	width:50%;	
+	position: absolute;
+	top:27.5vh;
+	right:8.5%;
+	z-index: 10;
+	background: white;
+	box-shadow: 1px 1px 3px 3px #504c4ca6;
+} 
+.model
+{
+	width:70%;
+	border:1px solid;
+	height: 70vh;
+	background:#af610085;
+	position: absolute;
+	top:15vh;
+	left:15%;
+	z-index: 10;
+	box-shadow:2px 2px 2px 2px black;
+}
+#cross{
+	border:1px solid black;
+	position: absolute;
+	right:2vh;
+	top:2vh;
+	padding:5px;
+
+}
+#callForgetModel{
+	cursor: pointer;
+	color:blue;
+}
+.model-body{
+	width:70%;
+	margin:10vh auto;
+}
+.forget{
+	    font-size: 24px;
+    height: 10vh;
+}

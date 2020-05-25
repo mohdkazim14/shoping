@@ -117,3 +117,47 @@
 
 			
 		</script>
+	<?php echo form_open_multipart('admin/addPtoduct'); ?>
+		        	<!-- <form class="form-group" action="<?= base_url("admin/addPtoduct")?>" method="POST" enctype="multipart/form-data"> -->
+		        		<div class="col-md-6">
+
+		        			<label>Name</label>
+							<input type="text" class="form-control" placeholder="Enter Name" name="name" id="name">   
+							<p class="error" id="name_error"></p>
+
+							<label>Category</label>
+							<select class="form-control" id="category">
+								<option disabled="true" selected="true">-- Select-category--</option>
+							</select>
+							<p class="error" id="category_error"></p> 
+
+							<label>quantity</label>
+							<input type="text" class="form-control" placeholder="Enter quantity" name="quantity" id="quantity">   
+							<p class="error" id="quantity_error"></p> 
+		        		</div>
+						<div class="col-md-6">
+							<label>Price</label>
+							<input type="text" class="form-control" placeholder="Enter Price" name="price" id="price">   
+							<p class="error" id="price_error"></p>  							
+						
+							<label>Brand</label>
+							<select class="form-control" id="Brand">
+								<option disabled="true" selected="true">-- Select-Brand--</option>
+							</select>
+							<p class="error" id="Brand_error"></p> 
+
+						    		 		
+							<label>offer</label>
+							<input type="text" class="form-control" placeholder="Enter offer" name="offer" id="offer">   
+							<p class="error" id="offer_error"></p>   
+		        		</div>    		
+		        		<div class="col-md-12">
+							<input type="file"  name="image" id="image">   
+							<p class="error" id="image_error"></p>     		
+							<label>Description</label>
+							<textarea class="form-control" id="description"></textarea>
+							<p class="error" id="description_error"></p>   
+							<input type="submit" name="submit" value="Add" class="btn btn-primary">
+						</div>
+					</form>
+					</div>
